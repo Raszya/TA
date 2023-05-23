@@ -66,8 +66,8 @@
                             <span>List Users</span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('listsiswa*') ? 'sidebar-item active' : 'sidebar-item' }}">
-                        <a href="/dashboard" class='sidebar-link'>
+                    <li class="{{ request()->routeIs('admin.mapel*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                        <a href="{{ route('admin.mapel') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mata Pelajaran</span>
                         </a>

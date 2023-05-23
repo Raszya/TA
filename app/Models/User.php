@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Guru;
 use App\Models\Siswa;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -21,6 +22,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'nis',
+        'nig',
         'email',
         'password',
     ];
@@ -47,5 +50,10 @@ class User extends Authenticatable
     public function siswa()
     {
         return $this->belongsTo(Siswa::class);
+    }
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class);
     }
 }

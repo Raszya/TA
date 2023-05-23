@@ -12,8 +12,11 @@ class Siswa extends Model
     public $table = 'siswas';
     public $timestamps = true;
     protected $fillable = [
+        'nis',
         'nama',
-        'nisn',
+        'alamat',
+        'jk',
+        'notelp',
     ];
 
     public function user()

@@ -41,46 +41,38 @@
         </div>
         <div class="sidebar-menu">
             <ul class="menu">
-                @role('siswa')
-                    <li class="{{ request()->routeIs('dashboard*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                <li class="{{ request()->routeIs('dashboard*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                    <a href="/dashboard" class='sidebar-link'>
+                        <i class="bi bi-grid-fill"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                @role('admin')
+                    <li class="{{ request()->routeIs('admin.listsiswa*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                        <a href="{{ route('admin.listsiswa') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>List Siswa</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('admin.listguru*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                        <a href="{{ route('admin.listguru') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>List Guru</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('admin.users.index*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                        <a href="{{ route('admin.users.index') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>List Users</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->routeIs('listsiswa*') ? 'sidebar-item active' : 'sidebar-item' }}">
                         <a href="/dashboard" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>Dashboard</span>
+                            <span>Mata Pelajaran</span>
                         </a>
                     </li>
                 @endrole
-                <li class="{{ request()->routeIs('admin.listsiswa*') ? 'sidebar-item active' : 'sidebar-item' }}">
-                    <a href="{{ route('admin.listsiswa') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>List Siswa</span>
-                    </a>
-                </li>
-                <li class="{{ request()->routeIs('admin.listguru*') ? 'sidebar-item active' : 'sidebar-item' }}">
-                    <a href="{{ route('admin.listsiswa') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>List Guru</span>
-                    </a>
-                </li>
-                <li class="{{ request()->routeIs('') ? 'sidebar-item  has-sub active' : 'sidebar-item  has-sub' }}">
-                    <a href="/SUadmin" class='sidebar-link'>
-                        <i class="bi bi-people-fill"></i>
-                        <span>User Management</span>
-                    </a>
-                    <ul class="submenu ">
-                        <li class="submenu-item ">
-                            <a href="">List User</a>
-                        </li>
-                        <li class="submenu-item ">
-                            <a href="">Roles</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="{{ request()->routeIs('listsiswa*') ? 'sidebar-item active' : 'sidebar-item' }}">
-                    <a href="/dashboard" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
-                        <span>Mata Pelajaran</span>
-                    </a>
-                </li>
             </ul>
             {{-- <ul class="menu">
                 <li class="{{ request()->routeIs('dashboard*') ? 'sidebar-item active' : 'sidebar-item' }}">

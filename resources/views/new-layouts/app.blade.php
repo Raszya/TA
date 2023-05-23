@@ -86,6 +86,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
         integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    @include('sweetalert::alert')
 
     {{-- <script>
         $(function() {
@@ -119,7 +120,7 @@
             document.getElementById('formFile').value = null;
             frame.src = "";
         } --}}
-    </script>
+    {{-- </script> --}}
 
     {{-- <script>
         let fileInput = document.getElementById("file-input");
@@ -145,7 +146,7 @@
                 reader.readAsDataURL(i);
             }
         } --}}
-    </script>
+    {{-- </script> --}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {{-- <script>
@@ -173,6 +174,13 @@
         });
     </script> --}}
 
+    {{-- <script type="text/javascript">
+        $("document").ready(function() {
+            setTimeout(function() {
+                $("div.alert").remove();
+            }, 3000);
+        });
+    </script> --}}
 
 
 </body>

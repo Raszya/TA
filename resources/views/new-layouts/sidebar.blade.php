@@ -73,6 +73,14 @@
                         </a>
                     </li>
                 @endrole
+                @role('guru')
+                    <li class="{{ request()->routeIs('guru.mapel*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                        <a href="{{ route('guru.mapel') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Mata Pelajaran</span>
+                        </a>
+                    </li>
+                @endrole
             </ul>
             {{-- <ul class="menu">
                 <li class="{{ request()->routeIs('dashboard*') ? 'sidebar-item active' : 'sidebar-item' }}">

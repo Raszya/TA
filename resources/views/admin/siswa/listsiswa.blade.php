@@ -77,7 +77,7 @@
                                 <th class="w-10px text-center">No</th>
                                 <th class="w-200px text-center">Nis</th>
                                 <th class="w-200px text-center">Nama</th>
-                                {{-- <th class="w-200px text-center">Role</th> --}}
+                                <th class="w-200px text-center">Jurusan</th>
                                 <th class="w-200px text-center">Alamat</th>
                                 <th class="w-200px text-center">Notelp</th>
                                 <th class="w-20px text-center">Aksi</th>
@@ -93,6 +93,9 @@
                                         </td>
                                         <td class="align-top">
                                             {{ $siswa->nama }}
+                                        </td>
+                                        <td class="align-top">
+                                            {{ $siswa->jurusan->nama }}
                                         </td>
                                         <td class="align-top">
                                             {{ $siswa->alamat }}

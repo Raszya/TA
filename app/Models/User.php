@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Guru;
 use App\Models\Siswa;
+use App\Models\Jurusan;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -55,5 +56,10 @@ class User extends Authenticatable
     public function guru()
     {
         return $this->belongsTo(Guru::class);
+    }
+
+    public function jurusan()
+    {
+        return $this->belongsTo(Jurusan::class);
     }
 }

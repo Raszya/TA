@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mapels', function (Blueprint $table) {
-            $table->id('id_mapel');
+        Schema::create('babs', function (Blueprint $table) {
+            $table->id();
+            $table->string('id_mapel');
             $table->string('nama');
-            $table->string('kode_akses');
-            $table->string('id_user');
             $table->string('desc');
-            $table->enum('status', ['0', '1']);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mapels');
+        Schema::dropIfExists('babs');
     }
 };

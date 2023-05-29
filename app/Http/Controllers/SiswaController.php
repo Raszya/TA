@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use App\Models\Jurusan;
 use App\Exports\SiswaExport;
 use App\Imports\SiswaImport;
 use Illuminate\Http\Request;

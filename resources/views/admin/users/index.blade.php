@@ -54,10 +54,11 @@
                                         <td class="align-top">
                                             {{ $user->role_name }}
                                         </td>
-                                        <td class="text-center justify-content-center in-line align-top"
+                                        <td class="text-center d-flex gap-1 justify-content-center in-line align-top"
                                             data-kt-menu="true">
                                             <form method="GET" action="">
-                                                <button class="btn btn-bg-primary btn-sm px-4 text-white">Edit</button>
+                                                <button class="btn icon btn-sm btn btn-warning"> <i
+                                                        class="bi bi-pencil-square"></i></button>
                                             </form>
                                             <form action="" method="POST" class="d-inline">
                                                 @method('delete')

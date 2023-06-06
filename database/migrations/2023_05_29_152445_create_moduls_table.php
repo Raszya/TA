@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('moduls', function (Blueprint $table) {
             $table->id();
-            $table->string('id_bab');
+            $table->unsignedBigInteger('id_bab');
             $table->string('dir_modul');
+            $table->string('desc');
             $table->timestamps();
+            $table->foreign('id_bab')->references('id')->on('babs')->onDelete('cascade');
         });
     }
 

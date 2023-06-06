@@ -49,23 +49,24 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (!@empty($maples))
+                                @if (!@empty($mapels))
                                     @forelse ($mapels as $mapel)
                                         <tr>
                                             <td class="align-top text-center"> {{ $loop->iteration }}</td>
                                             <td class="align-top">
                                                 {{ $mapel->nama }}
                                             </td>
-                                            <td class="align-top">
+                                            <td class="align-top text-center">
                                                 {{ $mapel->kode_akses }}
                                             </td>
-                                            <td class="align-top">
+                                            <td class="align-top text-center">
                                                 {{ $mapel->status }}
                                             </td>
-                                            <td class="text-center justify-content-center in-line align-top"
+                                            <td class="text-center d-flex gap-1 justify-content-center in-line align-top"
                                                 data-kt-menu="true">
                                                 <form method="GET" action="">
-                                                    <button class="btn btn-bg-primary btn-sm px-4 text-white">Edit</button>
+                                                    <button class="btn icon btn-sm btn-warning" title="Edit">
+                                                        <i class="bi bi-pencil-square"></i>
                                                 </form>
                                                 <form action="" method="POST" class="d-inline">
                                                     @method('delete')

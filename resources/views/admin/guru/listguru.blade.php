@@ -31,9 +31,9 @@
                     @endforeach --}}
                 </div>
                 <div>
-                    <a class="btn btn-primary btn-sm" href="/user/create">
+                    <a class="btn btn-primary btn-sm" href="{{ route('admin.guru.create') }}">
                         <i class="bi bi-plus-lg"></i>
-                        Tambah User
+                        Tambah Guru
                     </a>
                     <a class="btn btn-success btn-sm" href="{{ route('admin.downloaddataguru') }}" target="_blank">
                         <i class=""></i>
@@ -57,8 +57,8 @@
                                 <form action="{{ route('admin.uploaddataguru') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <input type="file" name="data_guru" class="form-control"><br>
-                                    <button type="" class="btn btn-primary">Save changes</button>
+                                    <input type="file" name="data_guru" class="form-control" required><br>
+                                    <button type="" class="btn btn-primary ">Upload</button>
                                 </form>
 
                             </div>
@@ -99,12 +99,15 @@
                                         <td class="align-top">
                                             {{ $guru->notelp }}
                                         </td>
-                                        <td class="text-center justify-content-center in-line align-top"
+                                        <td class="text-center d-flex gap-1 justify-content-center in-line align-top"
                                             data-kt-menu="true">
-                                            <form method="GET" action="">
-                                                <button class="btn btn-bg-primary btn-sm px-4 text-white">Edit</button>
+                                            <form method="GET"
+                                                action="{{ route('admin.guru.edit', $guru->nomer_induk) }}">
+                                                <button class="btn icon  btn-sm btn btn-warning"> <i
+                                                        class="bi bi-pencil-square"></i></button>
                                             </form>
-                                            <form action="" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.guru.destroy', $guru->nomer_induk) }}"
+                                                method="POST" class="d-inline">
                                                 @method('delete')
                                                 @csrf
                                                 <button class="btn icon btn-sm btn-danger"

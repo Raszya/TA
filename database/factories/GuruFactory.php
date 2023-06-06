@@ -19,8 +19,8 @@ class GuruFactory extends Factory
         return [
             'nama' => fake()->name(),
             'alamat' => fake()->address(),
-            'jk' => fake()->gender(),
-            'notelp' => fake()->no(),
+            'jk' => fake()->name(),
+            'notelp' => fake()->name(),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Guru;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class GuruImport implements ToModel
 {

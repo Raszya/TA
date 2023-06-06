@@ -31,7 +31,7 @@
                     @endforeach --}}
                 </div>
                 <div>
-                    <a class="btn btn-primary btn-sm" href="/user/create">
+                    <a class="btn btn-primary btn-sm" href="{{ route('admin.siswa.create') }}">
                         <i class="bi bi-plus-lg"></i>
                         Tambah Siswa
                     </a>
@@ -58,8 +58,8 @@
                                 <form action="{{ route('admin.uploaddatasiswa') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <input type="file" name="data_siswa" class="form-control"><br>
-                                    <button type="" class="btn btn-primary">Save changes</button>
+                                    <input type="file" name="data_siswa" class="form-control" required><br>
+                                    <button type="" class="btn btn-primary">Upload</button>
                                 </form>
 
                             </div>
@@ -80,7 +80,7 @@
                                 <th class="w-200px text-center">Jurusan</th>
                                 <th class="w-200px text-center">Alamat</th>
                                 <th class="w-200px text-center">Notelp</th>
-                                <th class="w-20px text-center">Aksi</th>
+                                <th class="w-200px text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,13 +88,13 @@
                                 @forelse ($siswas as $siswa)
                                     <tr>
                                         <td class="align-top text-center"> {{ $loop->iteration }}</td>
-                                        <td class="align-top">
+                                        <td class="align-top text-center">
                                             {{ $siswa->nis }}
                                         </td>
                                         <td class="align-top">
                                             {{ $siswa->nama }}
                                         </td>
-                                        <td class="align-top">
+                                        <td class="align-top text-center">
                                             {{ $siswa->jurusan->nama }}
                                         </td>
                                         <td class="align-top">
@@ -103,16 +103,20 @@
                                         <td class="align-top">
                                             {{ $siswa->notelp }}
                                         </td>
-                                        <td class="text-center justify-content-center in-line align-top"
+                                        <td class="text-center d-flex gap-1 justify-content-center in-line align-top"
                                             data-kt-menu="true">
-                                            <form method="GET" action="">
-                                                <button class="btn btn-bg-primary btn-sm px-4 text-white">Edit</button>
+                                            <form method="get"
+                                                action="{{ route('admin.siswa.edit', ['nis' => $siswa->nis]) }}">
+                                                <button class="btn icon btn-sm btn-warning" title="Edit">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
                                             </form>
-                                            <form action="" method="POST" class="d-inline">
+                                            <form action="{{ route('admin.siswa.destroy', $siswa->nis) }}" method="POST"
+                                                class="d-inline">
                                                 @method('delete')
                                                 @csrf
                                                 <button class="btn icon btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure?')" title="Hapus User?">
+                                                    onclick="return confirm('Are you sure?')" title="Hapus Siswa?">
                                                     <i class="bi bi-trash3-fill"></i>
                                                 </button>
                                             </form>

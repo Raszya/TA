@@ -20,31 +20,41 @@
     </div>
 
     <div class="row">
-        @foreach ($moduls as $modul)
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Modul {{ $loop->iteration }}</h5>
-                        <p class="card-text">{{ $modul->dir_modul }}</p>
-                        <a href="#" class="btn btn-success">Detail</a>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <a href="#" class="btn btn-danger">Delete</a>
+        <div class="col-sm-6">
+            <a href="#" class="btn btn-info my-2">Tambah Modul</a>
+            @if (!@empty($moduls))
+                @forelse ($moduls as $modul)
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Modul {{ $loop->iteration }}</h5>
+                            <p class="card-text">{{ $modul->dir_modul }}</p>
+                            <a href="#" class="btn btn-success">Detail</a>
+                            <a href="#" class="btn btn-warning">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </div>
                     </div>
-                </div>
-            </div>
-        @endforeach
-        @foreach ($tugass as $tugas)
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Tugas {{ $loop->iteration }}</h5>
-                        <p class="card-text">{{ $tugas->dir_tugas }}</p>
-                        <a href="#" class="btn btn-success">Detail</a>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                @empty
+                    <h5 class="alert alert-warning text-center">Belum ada Modul</h5>
+                @endforelse
+            @endif
+        </div>
+        <div class="col-sm-6">
+            <a href="{{ route('guru.createtugas', '') }}" class="btn btn-info my-2">Tambah Tugas</a>
+            @if (!@empty($tugass))
+                @forelse ($tugass as $tugas)
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Tugas {{ $loop->iteration }}</h5>
+                            <p class="card-text">{{ $tugas->dir_tugas }}</p>
+                            <a href="#" class="btn btn-success">Detail</a>
+                            <a href="#" class="btn btn-warning">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </div>
                     </div>
-                </div>
-            </div>
-        @endforeach
+                @empty
+                    <h5 class="alert alert-warning text-center">Belum ada Modul</h5>
+                @endforelse
+            @endif
+        </div>
     </div>
 @endsection

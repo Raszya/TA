@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('babs', function (Blueprint $table) {
             $table->id();
-            $table->string('id_mapel');
+            $table->unsignedBigInteger('id_mapel');
             $table->string('nama');
             $table->string('desc');
             $table->timestamps();
+            $table->foreign('id_mapel')->references('id_mapel')->on('mapels')->onDelete('cascade');
         });
     }
 

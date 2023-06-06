@@ -20,9 +20,7 @@
     </div>
 
     {{-- body --}}
-    {{-- <div class="container"> --}}
-    {{-- <div class="card">
-            <div class="card-body"> --}}
+    <a href="{{ route('guru.mapel.create') }}" class="btn btn-info my-3">Tambah Mapel</a>
     <div class="row">
         @if (!@empty($mapels))
             @forelse($mapels as $mapel)
@@ -31,8 +29,8 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $mapel->nama }}</h5>
                             <p class="card-text">{{ $mapel->desc }}</p>
-                            <a href="#" class="btn btn-warning">edit</a>
-                            <a href="#" class="btn btn-primary">detail</a>
+                            <a href="{{ route('guru.mapel.edit', $mapel->id_mapel) }}" class="btn btn-warning">edit</a>
+                            <a href="{{ route('guru.bab', ['id' => $mapel->id_mapel]) }}" class="btn btn-primary">detail</a>
                         </div>
                     </div>
                 </div>
@@ -41,7 +39,4 @@
             @endforelse
         @endif
     </div>
-    {{-- </div>
-        </div> --}}
-    {{-- </div> --}}
 @endsection

@@ -12,6 +12,7 @@ class Modul extends Model
     public $timestamps = true;
     protected $fillable = [
         'id_bab',
+        'desc',
         'dir_modul',
     ];
 }

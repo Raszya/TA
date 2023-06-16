@@ -12,7 +12,23 @@ class Tugas extends Model
     public $timestamps = true;
     protected $fillable = [
         'id_bab',
+        'desc',
         'dir_tugas',
         'deadline',
     ];
+
+    public function jawaban()
+    {
+        return $this->hasMany(Jawaban::class, 'id_tugas', 'id');
+    }
+
+    public function bab()
+    {
+        return $this->belongsTo(Bab::class, 'id_bab', 'id');
+    }
+
+    public function trxjawaban()
+    {
+        return $this->hasMany(Trxjawaban::class, 'id_tugas', 'id');
+    }
 }

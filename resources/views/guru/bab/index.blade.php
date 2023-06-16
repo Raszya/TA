@@ -20,7 +20,7 @@
     </div>
 
     {{-- @dd($mapel->id_mapel); --}}
-    <a href="{{ route('guru.bab.create', ['id' => Crypt::encrypt($mapel->id_mapel)]) }}" class="btn btn-info my-3">Tambah
+    <a href="{{ route('guru.bab.create', ['id' => $mapel->id_mapel]) }}" class="btn btn-info my-3">Tambah
         Bab</a>
     @if (!@empty($babs))
         @forelse($babs as $bab)
@@ -31,10 +31,15 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $bab->nama }}</h5>
                     <p class="card-text">{{ $bab->desc }}</p>
-                    <a href="{{ route('guru.tugas', ['id' => Crypt::encrypt($bab->id)]) }}"
-                        class="btn btn-success">Detail</a>
-                    <a href="#" class="btn btn-warning">Edit</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <a href="{{ route('guru.tugas', ['id' => $bab->id]) }}" class="btn btn-success">Detail</a>
+                    <a href="{{ route('guru.bab.edit', ['id' => $bab->id]) }}" class="btn btn-warning">Edit</a>
+                    <form action="{{ route('guru.bab.destroy', $bab->id) }}" method="POST" class="d-inline">
+                        @method('delete')
+                        @csrf
+                        <button class="btn icon btn-sm btn-danger" onclick="return confirm('Are you sure?')"
+                            title="Hapus User?">Delete</button>
+
+                    </form>
                 </div>
             </div>
         @empty

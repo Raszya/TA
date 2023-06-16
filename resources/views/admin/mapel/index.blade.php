@@ -37,10 +37,11 @@
                     </a>
                     <br>
                     <div class="table-responsive">
-                        <table class="table table-striped" id="table1">
+                        <table class="table table-striped" id="tbl_list">
                             <thead>
                                 <tr>
                                     <th class="w-10px text-center">No</th>
+                                    <th class="w-200px text-center">Nama Guru</th>
                                     <th class="w-200px text-center">Nama Mata Pelajaran</th>
                                     <th class="w-200px text-center">Kode Akses</th>
                                     {{-- <th class="w-200px text-center">Role</th> --}}
@@ -49,7 +50,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (!@empty($mapels))
+                                {{-- @if (!@empty($mapels))
                                     @forelse ($mapels as $mapel)
                                         <tr>
                                             <td class="align-top text-center"> {{ $loop->iteration }}</td>
@@ -85,7 +86,7 @@
                                             </td>
                                         </tr>
                                     @endforelse
-                                @endif
+                                @endif --}}
                             </tbody>
                         </table>
                     </div>
@@ -93,4 +94,80 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
+    <script type="text/javascript">
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $(document).ready(function() {
+            var table = $('#tbl_list').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url()->current() }}',
+                columns: [{
+                        data: 'id_mapel',
+                        name: 'id_mapel',
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'users.name',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'kode_akses',
+                        name: 'kode_akses'
+                    },
+                    {
+                        data: 'desc',
+                        name: 'desc'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                    },
+
+                ]
+            });
+
+            // Delete record
+            $('table').on('click', '.deletesiswa', function() {
+                var id = $(this).data('nis');
+                console.log(id)
+                var deleteConfirm = confirm("Are you sure?");
+                if (deleteConfirm == true) {
+                    // AJAX request
+                    $.ajax({
+                        url: "{{ route('admin.siswa.destroy') }}",
+                        type: 'post',
+                        headers: {
+                            'X-CSRF-TOKEN': CSRF_TOKEN
+                        },
+                        data: id,
+                        success: function(response) {
+                            console.log(response);
+                            if (response.success == 1) {
+                                alert("Record deleted.");
+
+                                // Reload DataTable
+                                table.ajax.reload();
+                            } else {
+                                alert("Invalid ID.");
+                            }
+                        }
+                    });
+                }
+
+            });
+        });
+    </script>
 @endsection

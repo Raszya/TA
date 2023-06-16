@@ -16,39 +16,16 @@
     <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/pages/simple-datatables.css') }}">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"> --}}
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"> --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+
+    <!-- Styles -->
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/extensions/filepond/filepond.css') }}">
     <link rel="stylesheet"
         href="{{ asset('assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.css' rel='stylesheet' />
-
-    {{-- <style>
-        .images-preview-div img
-        {
-        padding: 10px;
-        max-width: 100px;
-        }
-        #images{
-            width: 90%;
-            position: relative;
-            margin: auto;
-            display: flex;
-            justify-content: space-evenly;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        figure{
-            width: 45%;
-        }
-        img{
-            width: 100%;
-        }
-        figcaption{
-            text-align: center;
-            font-size: 2.4vmin;
-            margin-top: 0.5vmin;
-        }
-    </style> --}}
 </head>
 
 <body>
@@ -68,6 +45,9 @@
             </div>
         </div>
     </div>
+
+    @yield('script')
+    @yield('showpdfmodul')
     <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
@@ -88,99 +68,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @include('sweetalert::alert')
 
-    {{-- <script>
-        $(function() {
-            // Multiple images preview with JavaScript
-            var previewImages = function(input, imgPreviewPlaceholder) {
-                if (input.files) {
-                    var filesAmount = input.files.length;
-                    for (i = 0; i < filesAmount; i++) {
-                        var reader = new FileReader();
-                        reader.onload = function(event) {
-                            $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(
-                                imgPreviewPlaceholder);
-                        }
-                        reader.readAsDataURL(input.files[i]);
-                    }
-                }
-            };
-
-            $('#image').on('change', function() {
-                previewImages(this, 'div.images-preview-div');
-            });
-        });
-    </script> --}}
-    {{-- 
-    <script>
-        function preview() {
-            frame.src = URL.createObjectURL(event.target.files[0]);
-        }
-
-        function clearImage() {
-            document.getElementById('formFile').value = null;
-            frame.src = "";
-        } --}}
-    {{-- </script> --}}
-
-    {{-- <script>
-        let fileInput = document.getElementById("file-input");
-        let imageContainer = document.getElementById("images");
-        let numOfFiles = document.getElementById("num-of-files");
-
-        function previews() {
-            imageContainer.innerHTML = "";
-            numOfFiles.textContent = `${fileInput.files.length} Files Selected`;
-
-            for (i of fileInput.files) {
-                let reader = new FileReader();
-                let figure = document.createElement("figure");
-                let figCap = document.createElement("figcaption");
-                figCap.innerText = i.name;
-                figure.appendChild(figCap);
-                reader.onload = () => {
-                    let img = document.createElement("img");
-                    img.setAttribute("src", reader.result);
-                    figure.insertBefore(img, figCap);
-                }
-                imageContainer.appendChild(figure);
-                reader.readAsDataURL(i);
-            }
-        } --}}
-    {{-- </script> --}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    {{-- <script>
-        $(document).ready(function() {
-            $('#opd_id').on('change', function() {
-                var idOpd = this.value;
-                $("#ruang_id").html('');
-                $.ajax({
-                    url: "{{ url('api/fetch-ruangs') }}",
-                    type: "POST",
-                    data: {
-                        opd_id: idOpd,
-                        _token: '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(result) {
-                        $('#ruang_id').html('<option value="">--- Pilih ---</option>');
-                        $.each(result.ruangs, function(key, value) {
-                            $("#ruang_id").append('<option value="' + value
-                                .id + '">' + value.nama_ruang + '</option>');
-                        });
-                    }
-                });
-            });
-        });
-    </script> --}}
 
-    {{-- <script type="text/javascript">
-        $("document").ready(function() {
-            setTimeout(function() {
-                $("div.alert").remove();
-            }, 3000);
-        });
-    </script> --}}
 
 
 </body>

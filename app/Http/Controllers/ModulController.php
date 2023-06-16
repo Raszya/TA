@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Modul;
 use Illuminate\Http\Request;
 
 class ModulController extends Controller
@@ -13,7 +14,6 @@ class ModulController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -21,9 +21,9 @@ class ModulController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        return view('guru.tugas.modul', compact('id'));
     }
 
     /**
@@ -32,9 +32,29 @@ class ModulController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+
+        $request->validate([
+            'desc' => 'required',
+            'dir_modul' => 'required|file|mimes:pdf|max:2048',
+        ]);
+
+        if ($request->file('dir_modul')) {
+            $file_dokumen = $request->file('dir_modul')->getClientOriginalName();
+            $filename_dokumen = pathinfo($file_dokumen, PATHINFO_FILENAME);
+            $ext_dokumen = $request->file('dir_modul')->getClientOriginalExtension();
+            $filename_dokumen = time() . '.' . $filename_dokumen . '.' . $ext_dokumen;
+            $file = $request->file('dir_modul')->storeAs('public/modul', $filename_dokumen);
+        }
+        // dd($request, $file);
+        $modul = Modul::create([
+            'id_bab' => $id,
+            'desc' => $request->desc,
+            'dir_modul' => $file,
+        ]);
+
+        return redirect()->route('guru.tugas', compact('id'))->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**

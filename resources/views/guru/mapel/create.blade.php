@@ -17,23 +17,24 @@
                                 </div>
                                 <div class="col-md-10 form-group">
                                     <input type="text" id="nama" class="form-control" name="nama"
-                                        placeholder="Nama Mapel" required>
+                                        placeholder="Nama Mapel" required autocomplete="off">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Kode Akses</label>
                                 </div>
                                 <div class="col-md-10 form-group">
                                     <input type="text" id="kode_akses" class="form-control" name="kode_akses"
-                                        placeholder="Kode Akses" required>
+                                        placeholder="Kode Akses" required autocomplete="off">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Deskripsi</label>
                                 </div>
                                 <div class="col-md-10 form-group">
                                     <input type="text" id="desc" class="form-control" name="desc"
-                                        placeholder="Deskripsi Mapel" required>
+                                        placeholder="Deskripsi Mapel" required autocomplete="off">
                                 </div>
-                                <div class="col-sm-12 d-flex justify-content-end">
+                                <div class="col-sm-12
+                                        d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
                                     <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                 </div>

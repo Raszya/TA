@@ -9,13 +9,33 @@ use App\Imports\GuruImport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use Yajra\DataTables\Facades\DataTables;
 
 class GuruController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $gurus = Guru::get();
-        return view('admin.guru.listguru', compact('gurus'));
+        // $gurus = Guru::get();
+        // return view('admin.guru.listguru', compact('gurus'));
+
+        // dd($data);
+
+        if ($request->ajax()) {
+            $data = Guru::get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+
+                    $btn = '<div class="btn-group d-flex">';
+                    $btn = $btn . '<a href="' . route('admin.guru.edit', $row->nomer_induk) . '" class="btn icon btn-sm btn-warning mx-2" ><i class="bi bi-pencil-fill"></i></a>';
+                    $btn = $btn . '<a class="btn icon btn-sm btn-danger deleteguru" data-nomer_induk=' . $row->nomer_induk . '><i class="bi bi-trash-fill"></i></a>';
+                    $btn = $btn . '</div>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('admin.guru.listguru');
     }
 
     public function download()
@@ -76,10 +96,10 @@ class GuruController extends Controller
         return redirect()->route('admin.listguru')->with('success', 'Data Berhasil Diedit');
     }
 
-    public function destroy($nomer_induk)
+    public function destroy(Request $request)
     {
-        $guru = Guru::where(['nomer_induk' => $nomer_induk]);
+        $guru = Guru::where(['nomer_induk' => $request->nomer_induk]);
         $guru->delete();
-        return redirect()->route('admin.listguru')->with('success', 'Data Berhasil Dihapus');
+        return 'Data telah dihapus';
     }
 }

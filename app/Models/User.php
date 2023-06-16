@@ -4,12 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Guru;
+use App\Models\Mapel;
+use App\Models\Modul;
 use App\Models\Siswa;
 use App\Models\Jurusan;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -61,6 +63,21 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function jurusan()
     {
-        return $this->belongsTo(Jurusan::class);
+        return $this->belongsTo(Jurusan::class, 'id_jurusan', 'id');
+    }
+
+    public function mapel()
+    {
+        return $this->hasMany(Mapel::class);
+    }
+
+    public function jawaban()
+    {
+        return $this->hasMany(Jawaban::class);
+    }
+
+    public function trxjawaban()
+    {
+        return $this->hasMany(Trxjawaban::class, 'id_user', 'id');
     }
 }

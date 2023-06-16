@@ -71,7 +71,7 @@
                 </div>
                 <br>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="table1">
+                    <table class="table table-striped" id="tbl_list">
                         <thead>
                             <tr>
                                 <th class="w-10px text-center">No</th>
@@ -84,7 +84,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (!@empty($siswas))
+                            {{-- @if (!@empty($siswas))
                                 @forelse ($siswas as $siswa)
                                     <tr>
                                         <td class="align-top text-center"> {{ $loop->iteration }}</td>
@@ -129,7 +129,7 @@
                                         </td>
                                     </tr>
                                 @endforelse
-                            @endif
+                            @endif --}}
                         </tbody>
                     </table>
                 </div>
@@ -137,4 +137,135 @@
         </div>
     </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $(document).ready(function() {
+            var table = $('#tbl_list').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url()->current() }}',
+                columns: [{
+                        data: 'nis',
+                        name: 'nis',
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'nis',
+                        name: 'nis'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'jurusan.nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'alamat',
+                        name: 'alamat'
+                    },
+                    {
+                        data: 'notelp',
+                        name: 'notelp'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false,
+                    },
+
+                ]
+            });
+
+            // Delete record
+            $('table').on('click', '.deletesiswa', function(event) {
+                event.preventDefault();
+                var id = $(this).data('nis');
+                console.log(id)
+                Swal.fire({
+                    title: "Apa kamu yakin ?",
+                    confirmButtonClass: "btn btn-primary mx-2",
+                    cancelButtonClass: "btn btn-danger",
+                    confirmButtonText: "Yakin!",
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('admin.siswa.destroy') }}",
+                            type: 'post',
+                            headers: {
+                                'X-CSRF-TOKEN': CSRF_TOKEN
+                            },
+                            data: {
+                                nis: id
+                            },
+                            success: function(response) {
+                                // console.log(response);
+                                Swal.fire(
+                                    'Berhasil!',
+                                    response,
+                                    'success',
+                                );
+                                table.ajax.reload();
+                            },
+                            error: function(error) {
+                                console.log(error);
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Ada kesalahan.',
+                                    'error',
+                                );
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                            'Batal!',
+                            'Batal menghapus data.',
+                            'error',
+                        );
+                    }
+                });
+
+                // Swal.fire({
+                //     title: "Any fool can use a computer",
+                //     confirmButtonClass: "btn btn-primary",
+                //     buttonsStyling: !1,
+                // });
+
+                // if (deleteConfirm === true) {
+                //     // AJAX request
+                //     $.ajax({
+                //         url: "{{ route('admin.siswa.destroy') }}",
+                //         type: 'post',
+                //         headers: {
+                //             'X-CSRF-TOKEN': CSRF_TOKEN
+                //         },
+                //         data: id,
+                //         success: function(response) {
+                //             console.log(response);
+                //             if (response.success == 1) {
+                //                 alert("Record deleted.");
+
+                //                 // Reload DataTable
+                //                 table.ajax.reload();
+                //             } else {
+                //                 alert("Invalid ID.");
+                //             }
+                //         }
+                //     });
+                // }
+
+            });
+        });
+    </script>
 @endsection

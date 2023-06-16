@@ -17,14 +17,14 @@
                                 </div>
                                 <div class="col-md-10 form-group">
                                     <input type="text" id="nama" class="form-control" name="nama"
-                                        placeholder="Nama Mapel" required>
+                                        placeholder="Nama Mapel" required autocomplete="off">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Deskripsi</label>
                                 </div>
                                 <div class="col-md-10 form-group">
                                     <input type="text" id="desc" class="form-control" name="desc"
-                                        placeholder="Deskripsi Mapel" required>
+                                        placeholder="Deskripsi Mapel" required autocomplete="off">
                                 </div>
                                 <div class="col-sm-12 d-flex justify-content-end">
                                     <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>

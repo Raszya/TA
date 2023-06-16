@@ -70,7 +70,7 @@ class RegisteredUserController extends Controller
             $siswa = Siswa::where('nis', $request->nis)->first();
 
             if (!$siswa) {
-                return redirect()->route('register')->with('Danger', 'Nomer Induk Tidak terdaftar');
+                return redirect()->route('register')->with('error', 'Nomer Induk Tidak terdaftar');
             }
 
             $user = User::create([
@@ -80,7 +80,7 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
             ])->assignRole('siswa');
         } else {
-            return redirect()->route('register')->with('Danger', 'Register Gagal');
+            return redirect()->route('register')->with('error', 'Register Gagal, Nis/Nip tidak terdaftar');
         }
 
         event(new Registered($user));

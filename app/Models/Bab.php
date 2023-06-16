@@ -19,6 +19,11 @@ class Bab extends Model
 
     public function mapel()
     {
-        return $this->belongsTo(Mapel::class, 'id_mapel', 'id');
+        return $this->belongsTo(Mapel::class, 'id_mapel', 'id_mapel');
+    }
+
+    public function tugas()
+    {
+        return $this->hasMany(Tugas::class, 'id_bab', 'id');
     }
 }

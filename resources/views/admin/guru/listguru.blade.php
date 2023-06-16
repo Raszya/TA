@@ -70,11 +70,11 @@
                 </div>
                 <br>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="table1">
+                    <table class="table table-striped" id="tbl_list">
                         <thead>
                             <tr>
                                 <th class="w-10px text-center">No</th>
-                                <th class="w-200px text-center">Nomer Induk</th>
+                                <th class="w-200px text-center">NIP</th>
                                 <th class="w-200px text-center">Nama</th>
                                 {{-- <th class="w-200px text-center">Role</th> --}}
                                 <th class="w-200px text-center">Alamat</th>
@@ -83,48 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (!@empty($gurus))
-                                @forelse ($gurus as $guru)
-                                    <tr>
-                                        <td class="align-top text-center"> {{ $loop->iteration }}</td>
-                                        <td class="align-top">
-                                            {{ $guru->nomer_induk }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $guru->nama }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $guru->alamat }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $guru->notelp }}
-                                        </td>
-                                        <td class="text-center d-flex gap-1 justify-content-center in-line align-top"
-                                            data-kt-menu="true">
-                                            <form method="GET"
-                                                action="{{ route('admin.guru.edit', $guru->nomer_induk) }}">
-                                                <button class="btn icon  btn-sm btn btn-warning"> <i
-                                                        class="bi bi-pencil-square"></i></button>
-                                            </form>
-                                            <form action="{{ route('admin.guru.destroy', $guru->nomer_induk) }}"
-                                                method="POST" class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button class="btn icon btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure?')" title="Hapus User?">
-                                                    <i class="bi bi-trash3-fill"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="text-center">
-                                            <strong>Belum Ada Data</strong>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            @endif
+
                         </tbody>
                     </table>
                 </div>
@@ -132,4 +91,100 @@
         </div>
     </div>
     </div>
+@endsection
+@section('script')
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $(document).ready(function() {
+            var table = $('#tbl_list').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url()->current() }}',
+                columns: [{
+                        data: 'nomer_induk',
+                        name: 'nomer_induk',
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'nomer_induk',
+                        name: 'nomer_induk'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'alamat',
+                        name: 'alamat'
+                    },
+                    {
+                        data: 'notelp',
+                        name: 'notelp'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                ]
+            });
+
+            // Delete record
+            $('table').on('click', '.deleteguru', function(event) {
+                event.preventDefault();
+                var id = $(this).data('nomer_induk');
+                console.log(id)
+                Swal.fire({
+                    title: "Apa kamu yakin ?",
+                    confirmButtonClass: "btn btn-primary mx-2",
+                    cancelButtonClass: "btn btn-danger",
+                    confirmButtonText: "Yakin!",
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('admin.guru.destroy') }}",
+                            type: 'post',
+                            headers: {
+                                'X-CSRF-TOKEN': CSRF_TOKEN
+                            },
+                            data: {
+                                nomer_induk: id
+                            },
+                            success: function(response) {
+                                // console.log(response);
+                                Swal.fire(
+                                    'Berhasil!',
+                                    response,
+                                    'success',
+                                );
+                                table.ajax.reload();
+                            },
+                            error: function(error) {
+                                console.log(error);
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Ada kesalahan.',
+                                    'error',
+                                );
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                            'Batal!',
+                            'Batal menghapus data.',
+                            'error',
+                        );
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

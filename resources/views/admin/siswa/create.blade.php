@@ -17,7 +17,8 @@
                                         <label for="first-name-icon">NIS</label>
                                         <div class="position-relative">
                                             <input type="text" id="nis" name="nis" class="form-control"
-                                                placeholder="Nomer Induk Siswa" required autofocus maxlength="5">
+                                                placeholder="Nomer Induk Siswa" autocomplete="off" required autofocus
+                                                maxlength="5">
                                             <div class="form-control-icon">
                                                 <i class="bi bi-person"></i>
                                             </div>
@@ -29,7 +30,7 @@
                                         <label for="first-name-icon">Nama</label>
                                         <div class="position-relative">
                                             <input type="text" id="nama" name="nama" class="form-control"
-                                                placeholder="Nama" required>
+                                                placeholder="Nama" required autocomplete="off">
                                             <div class="form-control-icon">
                                                 <i class="bi bi-person"></i>
                                             </div>
@@ -41,7 +42,7 @@
                                         <label for="first-name-icon">No Telepon</label>
                                         <div class="position-relative">
                                             <input type="number" id="noTelp" name="noTelp" class="form-control"
-                                                placeholder="No Telepon" required>
+                                                placeholder="No Telepon" required autocomplete="off">
                                             <div class="form-control-icon">
                                                 <i class="bi bi-person"></i>
                                             </div>

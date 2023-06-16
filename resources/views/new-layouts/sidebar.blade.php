@@ -63,7 +63,7 @@
                     <li class="{{ request()->routeIs('admin.users.index*') ? 'sidebar-item active' : 'sidebar-item' }}">
                         <a href="{{ route('admin.users.index') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
-                            <span>List Users</span>
+                            <span>Management Users</span>
                         </a>
                     </li>
                     <li class="{{ request()->routeIs('admin.mapel*') ? 'sidebar-item active' : 'sidebar-item' }}">
@@ -81,7 +81,26 @@
                         </a>
                     </li>
                 @endrole
+                @role('siswa')
+                    <li class="{{ request()->routeIs('guru.mapel*') ? 'sidebar-item active' : 'sidebar-item' }} has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Mata Pelajaran</span>
+                        </a>
+                        <ul class="submenu" id="submenuSiswa">
+
+                        </ul>
+                    </li>
+
+                    <li class="{{ request()->routeIs('siswa.nilai*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                        <a href="{{ route('siswa.nilai') }}" class='sidebar-link'>
+                            <i class="bi bi-grid-fill"></i>
+                            <span>Nilai</span>
+                        </a>
+                    </li>
+                @endrole
             </ul>
+
             {{-- <ul class="menu">
                 <li class="{{ request()->routeIs('dashboard*') ? 'sidebar-item active' : 'sidebar-item' }}">
                     <a href="/dashboard" class='sidebar-link'>
@@ -194,3 +213,23 @@
         </div>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(window).ready(function() {
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $.ajax({
+            url: '{{ route('siswa.listMapel') }}',
+            type: 'GET',
+            headers: CSRF_TOKEN,
+            success: function(response) {
+                response.forEach(data => {
+                    $('#submenuSiswa').append(`
+                    <li class="submenu-item ">
+                        <a href="/siswa/mapel/${data.mapels.id_mapel}/bab">${data.mapels.nama}</a>
+                    </li>`);
+                });
+            },
+        })
+    })
+</script>

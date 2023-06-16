@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('siswas', function (Blueprint $table) {
             $table->id('nis');
-            $table->string('id_jurusan')->nullable();
+            $table->unsignedBigInteger('id_jurusan');
             $table->string('nama');
             $table->string('alamat');
             $table->string('jk');
             $table->string('notelp');
             $table->timestamps();
+            $table->foreign('id_jurusan')->references('id')->on('jurusans')->onDelete('Restrict');
         });
     }
 

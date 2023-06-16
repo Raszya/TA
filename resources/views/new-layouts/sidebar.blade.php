@@ -66,12 +66,12 @@
                             <span>Management Users</span>
                         </a>
                     </li>
-                    <li class="{{ request()->routeIs('admin.mapel*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                    {{-- <li class="{{ request()->routeIs('admin.mapel*') ? 'sidebar-item active' : 'sidebar-item' }}">
                         <a href="{{ route('admin.mapel') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Mata Pelajaran</span>
                         </a>
-                    </li>
+                    </li> --}}
                 @endrole
                 @role('guru')
                     <li class="{{ request()->routeIs('guru.mapel*') ? 'sidebar-item active' : 'sidebar-item' }}">
@@ -92,12 +92,12 @@
                         </ul>
                     </li>
 
-                    <li class="{{ request()->routeIs('siswa.nilai*') ? 'sidebar-item active' : 'sidebar-item' }}">
+                    {{-- <li class="{{ request()->routeIs('siswa.nilai*') ? 'sidebar-item active' : 'sidebar-item' }}">
                         <a href="{{ route('siswa.nilai') }}" class='sidebar-link'>
                             <i class="bi bi-grid-fill"></i>
                             <span>Nilai</span>
                         </a>
-                    </li>
+                    </li> --}}
                 @endrole
             </ul>
 

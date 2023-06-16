@@ -102,72 +102,91 @@
     <script type="text/javascript">
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
-            var table = $('#tbl_list').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{ url()->current() }}',
-                columns: [{
-                        data: 'id_mapel',
-                        name: 'id_mapel',
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        data: 'users.name',
-                        name: 'nama'
-                    },
-                    {
-                        data: 'nama',
-                        name: 'nama'
-                    },
-                    {
-                        data: 'kode_akses',
-                        name: 'kode_akses'
-                    },
-                    {
-                        data: 'desc',
-                        name: 'desc'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                    },
+                    var table = $('#tbl_list').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ajax: '{{ url()->current() }}',
+                        columns: [{
+                                data: 'id_mapel',
+                                name: 'id_mapel',
+                                render: function(data, type, row, meta) {
+                                    return meta.row + meta.settings._iDisplayStart + 1;
+                                }
+                            },
+                            {
+                                data: 'users.name',
+                                name: 'nama'
+                            },
+                            {
+                                data: 'nama',
+                                name: 'nama'
+                            },
+                            {
+                                data: 'kode_akses',
+                                name: 'kode_akses'
+                            },
+                            {
+                                data: 'desc',
+                                name: 'desc'
+                            },
+                            {
+                                data: 'action',
+                                name: 'action',
+                                orderable: false,
+                                searchable: false,
+                            },
 
-                ]
-            });
-
-            // Delete record
-            $('table').on('click', '.deletesiswa', function() {
-                var id = $(this).data('nis');
-                console.log(id)
-                var deleteConfirm = confirm("Are you sure?");
-                if (deleteConfirm == true) {
-                    // AJAX request
-                    $.ajax({
-                        url: "{{ route('admin.siswa.destroy') }}",
-                        type: 'post',
-                        headers: {
-                            'X-CSRF-TOKEN': CSRF_TOKEN
-                        },
-                        data: id,
-                        success: function(response) {
-                            console.log(response);
-                            if (response.success == 1) {
-                                alert("Record deleted.");
-
-                                // Reload DataTable
-                                table.ajax.reload();
-                            } else {
-                                alert("Invalid ID.");
-                            }
-                        }
+                        ]
                     });
-                }
 
-            });
-        });
+                    // Delete record
+                    $('table').on('click', '.deletemapel', function(event) {
+                        event.preventDefault();
+                        var id = $(this).data('id');
+                        console.log(id)
+                        Swal.fire({
+                            title: "Apa kamu yakin ?",
+                            confirmButtonClass: "btn btn-primary mx-2",
+                            cancelButtonClass: "btn btn-danger",
+                            confirmButtonText: "Yakin!",
+                            showCancelButton: true,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: "{{ route('admin.siswa.destroy') }}",
+                                    type: 'post',
+                                    headers: {
+                                        'X-CSRF-TOKEN': CSRF_TOKEN
+                                    },
+                                    data: {
+                                        nis: id
+                                    },
+                                    success: function(response) {
+                                        // console.log(response);
+                                        Swal.fire(
+                                            'Berhasil!',
+                                            response,
+                                            'success',
+                                        );
+                                        table.ajax.reload();
+                                    },
+                                    error: function(error) {
+                                        console.log(error);
+                                        Swal.fire(
+                                            'Gagal!',
+                                            'Ada kesalahan.',
+                                            'error',
+                                        );
+                                    }
+                                });
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                Swal.fire(
+                                    'Batal!',
+                                    'Batal menghapus data.',
+                                    'error',
+                                );
+                            }
+                        });
+                    });
     </script>
 @endsection

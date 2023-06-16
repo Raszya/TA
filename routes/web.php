@@ -43,7 +43,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->name('admin.')->prefix('a
     Route::get('downloaddatasiswa', [SiswaController::class, 'download'])->name('downloaddatasiswa');
     Route::post('uploaddatasiswa', [SiswaController::class, 'upload'])->name('uploaddatasiswa');
     Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
-    Route::post('/siswa', [SiswaController::class, 'store'])->name('siswa.store');
+    Route::post('/siswa/create', [SiswaController::class, 'store'])->name('siswa.store');
     Route::get('/siswa/{nis}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
     Route::put('/siswa/{nis}', [SiswaController::class, 'update'])->name('siswa.update');
     Route::post('/siswa', [SiswaController::class, 'destroy'])->name('siswa.destroy');
@@ -56,7 +56,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])->name('admin.')->prefix('a
     Route::post('/guru', [GuruController::class, 'store'])->name('guru.store');
     Route::get('/guru/{nomer_induk}/edit', [GuruController::class, 'edit'])->name('guru.edit');
     Route::put('/guru/{nomer_induk}', [GuruController::class, 'update'])->name('guru.update');
-    Route::post('/guru', [GuruController::class, 'destroy'])->name('guru.destroy');
+    Route::delete('/guru', [GuruController::class, 'destroy'])->name('guru.destroy');
 
     // List User
     Route::get('/users', [UserController::class, 'index'])->name('users.index');

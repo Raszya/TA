@@ -16,4 +16,9 @@ class User_Mapel extends Model
     {
         return $this->belongsTo(Mapel::class, 'id_mapel', 'id_mapel');
     }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'id_siswa', 'id');
+    }
 }

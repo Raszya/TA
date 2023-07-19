@@ -7,15 +7,15 @@ use App\Models\Bab;
 use App\Models\Mapel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User_Mapel;
+use Illuminate\Support\Facades\Auth;
 
 class BabController extends Controller
 {
     public function index($id)
     {
         $babs = Bab::where('id_mapel', $id)->get();
-        // dd($babs);
         $mapel = Mapel::where('id_mapel', $id)->first();
-        // dd($id);
         return view('guru.bab.index', compact('babs', 'mapel'));
     }
 
@@ -71,9 +71,8 @@ class BabController extends Controller
 
     public function indexSiswa($id)
     {
-        $babs = Bab::where('id_mapel', $id)->get();
-        // dd($babs, $id);
-
-        return view('siswa.bab.index', compact('babs'));
+        // $babs = Bab::where('id_mapel', $id)->get();
+        $babs = User_Mapel::with('mapels.bab.tugas.jawaban.nilai')->where('id_siswa', Auth::user()->id)->get();
+        return view('siswa.bab.index', compact('babs', 'id'));
     }
 }

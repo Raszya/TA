@@ -8,11 +8,6 @@
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="{{ route('guru.mapel') }}">List Siswa</a>
-                            </li>
-                        </ol>
                     </nav>
                 </div>
             </div>
@@ -20,17 +15,26 @@
     </div>
 
     {{-- body --}}
-    <a href="{{ route('guru.mapel.create') }}" class="btn btn-info my-3">Tambah Mapel</a>
     <div class="row">
-        @if (!@empty($mapels))
-            @forelse($mapels as $mapel)
-                <div class="col-sm-6 col-md-4 col-lg-3">
+        @if (!@empty($Trx_guru))
+            @forelse($Trx_guru as $mapel)
+                <div class="col-sm-7 col-md-4 col-lg-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $mapel->nama }}</h5>
-                            <p class="card-text">{{ $mapel->desc }}</p>
-                            <a href="{{ route('guru.mapel.edit', $mapel->id_mapel) }}" class="btn btn-warning">edit</a>
-                            <a href="{{ route('guru.bab', ['id' => $mapel->id_mapel]) }}" class="btn btn-primary">detail</a>
+                            <h5 class="card-title">{{ $mapel->mapel->nama }}</h5>
+                            <p class="card-text">{{ $mapel->mapel->desc }}</p>
+                            <div class="d-flex">
+                                <a href="{{ route('guru.mapel.edit', $mapel->id) }}" class="btn btn-warning">edit</a>
+                                <a href="{{ route('guru.bab', ['id' => $mapel->mapel->id_mapel]) }}"
+                                    class="btn btn-primary mx-1">detail</a>
+                                <form action="{{ route('guru.mapel.destroy', ['id' => $mapel->id]) }}" method="POST"
+                                    class="d-inline">
+                                    @method('delete')
+                                    @csrf
+                                    <button class="btn btn-danger" onclick="return confirm('Are you sure?')"
+                                        title="Hapus User?">Selesai</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

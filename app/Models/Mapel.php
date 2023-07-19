@@ -6,19 +6,22 @@ use App\Models\Bab;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Mapel extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     public $table = 'mapels';
     public $timestamps = true;
-    protected $fillable = [
-        'nama',
-        'kode_akses',
-        'id_user',
-        'desc',
-        'status',
-    ];
+    protected $primaryKey = 'id_mapel';
+    protected $dates = ['deleted_at'];
+    protected $fillable = ['id_mapel', 'nama', 'is_aktif'];
+
+    public function getIsAktifAttribute()
+    {
+        return $this->attributes['is_aktif'] == 1;
+    }
 
     public function bab()
     {
@@ -27,7 +30,7 @@ class Mapel extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'id_user', 'id');
+        return $this->belongsTo(User::class);
     }
 
     public function user()
@@ -43,5 +46,10 @@ class Mapel extends Model
     public function jawaban()
     {
         return $this->hasMany(Jawaban::class);
+    }
+
+    public function Trx_mapel_guru()
+    {
+        return $this->hasMany(Trx_mapel_guru::class);
     }
 }

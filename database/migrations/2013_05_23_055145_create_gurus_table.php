@@ -19,7 +19,12 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('jk');
             $table->string('notelp');
+            $table->enum('is_aktif', ['0', '1']);
+            $table->softDeletes();
             $table->timestamps();
+        });
+        Schema::table('gurus', function (Blueprint $table) {
+            $table->string('nomer_induk', 255)->change();
         });
     }
 

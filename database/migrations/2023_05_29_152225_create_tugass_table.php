@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_bab');
             $table->string('dir_tugas')->nullable();
-            $table->date('deadline');
+            $table->dateTime('deadline');
+            $table->enum('jenisTugas', ['1', '2']);
             $table->string('desc');
             $table->timestamps();
 

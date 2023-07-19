@@ -23,12 +23,6 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="flash-message">
-                    {{-- @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-                        @if (Session::has('alert-' . $msg))
-                            <p id="alert" class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }}
-                            </p>
-                        @endif
-                    @endforeach --}}
                 </div>
                 <div>
                     <a class="btn btn-primary btn-sm" href="{{ route('admin.siswa.create') }}">
@@ -78,58 +72,14 @@
                                 <th class="w-200px text-center">Nis</th>
                                 <th class="w-200px text-center">Nama</th>
                                 <th class="w-200px text-center">Jurusan</th>
+                                <th class="w-200px text-center">kelas</th>
+                                <th class="w-200px text-center">tahun</th>
                                 <th class="w-200px text-center">Alamat</th>
                                 <th class="w-200px text-center">Notelp</th>
-                                <th class="w-200px text-center">Aksi</th>
+                                <th class="text-center" width="50px">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @if (!@empty($siswas))
-                                @forelse ($siswas as $siswa)
-                                    <tr>
-                                        <td class="align-top text-center"> {{ $loop->iteration }}</td>
-                                        <td class="align-top text-center">
-                                            {{ $siswa->nis }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $siswa->nama }}
-                                        </td>
-                                        <td class="align-top text-center">
-                                            {{ $siswa->jurusan->nama }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $siswa->alamat }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $siswa->notelp }}
-                                        </td>
-                                        <td class="text-center d-flex gap-1 justify-content-center in-line align-top"
-                                            data-kt-menu="true">
-                                            <form method="get"
-                                                action="{{ route('admin.siswa.edit', ['nis' => $siswa->nis]) }}">
-                                                <button class="btn icon btn-sm btn-warning" title="Edit">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('admin.siswa.destroy', $siswa->nis) }}" method="POST"
-                                                class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button class="btn icon btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure?')" title="Hapus Siswa?">
-                                                    <i class="bi bi-trash3-fill"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="text-center">
-                                            <strong>Belum Ada Data</strong>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            @endif --}}
                         </tbody>
                     </table>
                 </div>
@@ -167,6 +117,14 @@
                     },
                     {
                         data: 'jurusan.nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'kelas.nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'tahun.tahun',
                         name: 'nama'
                     },
                     {
@@ -210,6 +168,55 @@
                                 nis: id
                             },
                             success: function(response) {
+                                console.log(response);
+                                Swal.fire(
+                                    'Berhasil!',
+                                    response,
+                                    'success',
+                                );
+                                table.ajax.reload();
+                            },
+                            error: function(error) {
+                                console.log(error);
+                                Swal.fire(
+                                    'Gagal!',
+                                    'Ada kesalahan.',
+                                    'error',
+                                );
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                            'Batal!',
+                            'Batal menghapus data.',
+                            'error',
+                        );
+                    }
+                });
+            });
+            // Restore record
+            $('table').on('click', '.restoresiswa', function(event) {
+                event.preventDefault();
+                var id = $(this).data('nis');
+                console.log(id)
+                Swal.fire({
+                    title: "Apa kamu yakin ?",
+                    confirmButtonClass: "btn btn-primary mx-2",
+                    cancelButtonClass: "btn btn-danger",
+                    confirmButtonText: "Yakin!",
+                    showCancelButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('admin.siswa.restore') }}",
+                            type: 'post',
+                            headers: {
+                                'X-CSRF-TOKEN': CSRF_TOKEN
+                            },
+                            data: {
+                                nis: id
+                            },
+                            success: function(response) {
                                 // console.log(response);
                                 Swal.fire(
                                     'Berhasil!',
@@ -235,36 +242,6 @@
                         );
                     }
                 });
-
-                // Swal.fire({
-                //     title: "Any fool can use a computer",
-                //     confirmButtonClass: "btn btn-primary",
-                //     buttonsStyling: !1,
-                // });
-
-                // if (deleteConfirm === true) {
-                //     // AJAX request
-                //     $.ajax({
-                //         url: "{{ route('admin.siswa.destroy') }}",
-                //         type: 'post',
-                //         headers: {
-                //             'X-CSRF-TOKEN': CSRF_TOKEN
-                //         },
-                //         data: id,
-                //         success: function(response) {
-                //             console.log(response);
-                //             if (response.success == 1) {
-                //                 alert("Record deleted.");
-
-                //                 // Reload DataTable
-                //                 table.ajax.reload();
-                //             } else {
-                //                 alert("Invalid ID.");
-                //             }
-                //         }
-                //     });
-                // }
-
             });
         });
     </script>

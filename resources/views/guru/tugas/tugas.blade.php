@@ -24,8 +24,17 @@
                                     <label>Deadline</label>
                                 </div>
                                 <div class="col-md-10 form-group">
-                                    <input type="date" id="deadline" class="form-control" name="deadline"
+                                    <input type="datetime-local" id="deadline" class="form-control" name="deadline"
                                         placeholder="Upload Modul" required autocomplete="off">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Jenis Tugas</label>
+                                </div>
+                                <div class="col-md-10 form-group">
+                                    <input type="radio" id="jenisTugas" value="1" name="jenisTugas" required checked>
+                                    Dengan Deadline <br>
+                                    <input type="radio" id="jenisTugas" value="2" name="jenisTugas" required> Tanpa
+                                    Deadline <br>
                                 </div>
                                 <div class="col-md-2">
                                     <label>Upload Tugas</label>

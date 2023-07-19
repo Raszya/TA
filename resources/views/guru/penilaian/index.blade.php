@@ -4,7 +4,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Bab</h3>
+                    <h3></h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -32,8 +32,8 @@
                 </tr>
             </thead>
             <tbody>
-                @if (!@empty($jawaban))
-                    @forelse ($jawaban as $row)
+                @if (!@empty($tugas))
+                    @forelse ($tugas as $row)
                         <tr>
                             <td class="align-top text-center"> {{ $loop->iteration }}</td>
                             <td class="align-top">
@@ -47,12 +47,13 @@
                                         class="bi bi-file-pdf-fill"></i></a>
                             </td>
                             <td class="align-top">
-                                <form action="{{ route('guru.penilaian.store', ['id' => $row->id]) }}" class="d-flex"
-                                    method="POST">
+                                <form
+                                    action="{{ isset($row->nilai->nilai) ? route('guru.penilaian.update', ['id' => $row->id]) : route('guru.penilaian.store', ['id' => $row->id]) }}"
+                                    class="d-flex" method="POST">
                                     @csrf
                                     <input type="text" id="nilai" class="form-control-sm" name="nilai"
                                         placeholder="nilai" required autocomplete="off"
-                                        value="{{ $row->nilai->nilai ? $row->nilai->nilai : '' }}">
+                                        value="{{ $row->nilai->nilai ?? '' }}">
                                     <button class="btn btn-primary mx-2" type="submit">Submit</button>
                                 </form>
                             </td>

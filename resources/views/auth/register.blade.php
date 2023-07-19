@@ -29,9 +29,6 @@
 
                     <center><a href="/"><img src="{{ asset('assets/img/sman1.png') }}" height="500px"
                                 width="200px"></a></center>
-
-
-
                     <form method="POST" action="{{ route('register') }}">
                         <center>
                             <h1 class="form-title mt-4">REGISTER</h1>
@@ -91,7 +88,18 @@
     <!-- JS -->
     <script src="tmp_loginregister/vendor/jquery/jquery.min.js"></script>
     <script src="tmp_loginregister/js/main.js"></script>
-    @include('sweetalert::alert')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (Session::has('error'))
+        <script>
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: '{{ Session::get('error') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 
 </html>

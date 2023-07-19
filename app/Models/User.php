@@ -13,6 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -30,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'nip',
         'email',
         'password',
+        'is_aktif',
     ];
 
     /**
@@ -53,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class);
+        return $this->belongsTo(Siswa::class, 'nis', 'nis');
     }
 
     public function guru()
@@ -76,8 +78,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Jawaban::class);
     }
 
-    public function trxjawaban()
+    public function Usermapel()
     {
-        return $this->hasMany(Trxjawaban::class, 'id_user', 'id');
+        return $this->hasMany(User_Mapel::class);
     }
 }

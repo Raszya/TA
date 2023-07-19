@@ -19,7 +19,7 @@ class Bab extends Model
 
     public function mapel()
     {
-        return $this->belongsTo(Mapel::class, 'id_mapel', 'id_mapel');
+        return $this->belongsTo(Mapel::class);
     }
 
     public function tugas()

@@ -29,19 +29,26 @@
             <div class="row">
                 @if (!@empty($mapels))
                     @forelse($mapels as $mapel)
-                        <div class="col-sm-6 col-md-4 col-lg-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $mapel->nama }}</h5>
-                                    <h6 class="card-text">{{ $mapel->desc }}</h6>
-                                    <h5 class="card-text">Nama Guru : {{ $mapel->users->name }}</h5>
-                                    <div class="d-flex justify-content-end">
-                                        <a href="{{ route('siswa.enrollment', ['id' => $mapel->id_mapel]) }}"
-                                            class="btn btn-primary">Enrollment</a>
+                        @php
+                            $transaksi = App\Models\User_Mapel::where('id_mapel', $mapel->id_mapel)
+                                ->where('id_siswa', Auth::user()->id)
+                                ->first();
+                        @endphp
+                        @if (!$transaksi)
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $mapel->mapel->nama }}</h5>
+                                        <h6 class="card-text">{{ $mapel->mapel->desc }}</h6>
+                                        <h5 class="card-text">Nama Guru : {{ $mapel->guru->nama }}</h5>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="{{ route('siswa.enrollment', ['id' => $mapel->id_mapel]) }}"
+                                                class="btn btn-primary">Enrollment</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @empty
                         <h3 class="alert alert-info text-center">Belum ada mata pelajaran</h3>
                     @endforelse

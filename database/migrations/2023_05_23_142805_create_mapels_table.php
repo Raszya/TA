@@ -15,13 +15,10 @@ return new class extends Migration
     {
         Schema::create('mapels', function (Blueprint $table) {
             $table->id('id_mapel');
-            $table->unsignedBigInteger('id_user');
             $table->string('nama');
-            $table->string('kode_akses');
-            $table->string('desc');
-            $table->enum('status', ['0', '1']);
+            $table->enum('is_aktif', ['0', '1']);
+            $table->softDeletes();
             $table->timestamps();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('RESTRICT');
         });
     }
 

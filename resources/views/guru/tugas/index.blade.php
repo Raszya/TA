@@ -51,6 +51,14 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Tugas {{ $loop->iteration }}</h5>
+                            <p class="card-text">Deskripsi : {{ $tugas->desc }}
+                                <br> Deadline : {{ $tugas->deadline }}
+                                <br> Jenis Tugas : @if ($tugas->jenisTugas == 1)
+                                    dengan deadline
+                                @else
+                                    Tanpa deadline
+                                @endif
+                            </p>
                             <a type="button" href="{{ route('guru.penilaian', ['id' => $tugas->id]) }}"
                                 class="btn btn-primary my-1">Penilaian</a>
                             <a href="#" class="btn btn-warning">Edit</a>
@@ -66,9 +74,9 @@
 
 @endsection
 
-@section('showpdfmodul')
+{{-- @section('showpdfmodul')
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script> --}}
-    {{-- <script>
+{{-- <script>
         var pdfPath =
             "{{ route('guru.modul.showpdf', ['id1' => $moduls->id, 'id' => $id]) }}";
 
@@ -101,4 +109,4 @@
             });
         });
     </script> --}}
-@endsection
+{{-- @endsection --}} --}}

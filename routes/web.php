@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MapelGuruController;
 use App\Http\Controllers\ModulController;
 use App\Http\Controllers\NilaiController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,23 +48,42 @@ Route::middleware(['auth', 'verified', 'role:admin'])->name('admin.')->prefix('a
     Route::get('/siswa/{nis}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
     Route::put('/siswa/{nis}', [SiswaController::class, 'update'])->name('siswa.update');
     Route::post('/siswa', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+    Route::post('/siswa/restore', [SiswaController::class, 'restore'])->name('siswa.restore');
+    Route::get('/kelas', [SiswaController::class, 'kelas'])->name('kelas');
+    Route::get('/kelas/create', [SiswaController::class, 'createKelas'])->name('kelas.create');
+    Route::post('/kelas/store', [SiswaController::class, 'storeKelas'])->name('kelas.store');
+    Route::get('/tahunajaran', [SiswaController::class, 'indexTahun'])->name('tahunajaran');
+    Route::get('/tahunajaran/create', [SiswaController::class, 'createTahun'])->name('tahunajaran.create');
+    Route::post('/tahunajaran/store', [SiswaController::class, 'storeTahun'])->name('tahunajaran.store');
 
     //  List Guru
     Route::get('/listguru', [GuruController::class, 'index'])->name('listguru');
     Route::get('downloaddataguru', [GuruController::class, 'download'])->name('downloaddataguru');
     Route::post('uploaddataguru', [GuruController::class, 'upload'])->name('uploaddataguru');
     Route::get('/guru/create', [GuruController::class, 'create'])->name('guru.create');
-    Route::post('/guru', [GuruController::class, 'store'])->name('guru.store');
+    Route::post('/guru/create', [GuruController::class, 'store'])->name('guru.store');
     Route::get('/guru/{nomer_induk}/edit', [GuruController::class, 'edit'])->name('guru.edit');
     Route::put('/guru/{nomer_induk}', [GuruController::class, 'update'])->name('guru.update');
-    Route::delete('/guru', [GuruController::class, 'destroy'])->name('guru.destroy');
+    Route::post('/guru', [GuruController::class, 'destroy'])->name('guru.destroy');
+    Route::post('/guru/restore', [GuruController::class, 'restore'])->name('guru.restore');
 
     // List User
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::delete('/users/delete', [UserController::class, 'destroy'])->name('users.delete');
+    Route::resource('/roles', RoleController::class);
+    Route::get('/users/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.delete');
+    Route::post('/users/{user}/roles', [UserController::class, 'assignRole'])->name('users.roles');
+    Route::delete('/users/{user}/roles/{role}', [UserController::class, 'removeRole'])->name('users.roles.remove');
 
     // List Mapel
     Route::get('/mapels', [MapelController::class, 'index'])->name('mapel');
+    Route::get('/mapel/create', [MapelController::class, 'create'])->name('mapel.crate');
+    Route::post('/mapel/create', [MapelController::class, 'store'])->name('mapel.store');
+    Route::post('/mapel', [MapelController::class, 'destroy'])->name('mapel.destroy');
+    Route::post('/mapel/restore', [MapelController::class, 'restore'])->name('mapel.restore');
+    Route::get('/mapel/assign/{id}', [MapelController::class, 'assign'])->name('mapel.assign');
+    Route::post('/mapel/assign', [MapelController::class, 'storeAssign'])->name('mapel.assignStore');
 });
 
 //Routing Guru
@@ -74,8 +94,11 @@ Route::middleware(['auth', 'verified', 'role:guru'])->name('guru.')->prefix('gur
     Route::get('/mapel', [MapelGuruController::class, 'index'])->name('mapel');
     Route::get('/mapel/create', [MapelGuruController::class, 'create'])->name('mapel.create');
     Route::post('/mapel/store', [MapelGuruController::class, 'store'])->name('mapel.store');
-    Route::get('/mapel/{id_mapel}/edit', [MapelGuruController::class, 'edit'])->name('mapel.edit');
-    Route::put('/mapel/{id_mapel}', [MapelGuruController::class, 'update'])->name('mapel.update');
+    Route::get('/mapel/{id}/edit', [MapelGuruController::class, 'edit'])->name('mapel.edit');
+    Route::put('/mapel/{id}', [MapelGuruController::class, 'update'])->name('mapel.update');
+    Route::get('/mapel/history', [MapelGuruController::class, 'history'])->name('mapel.history');
+    Route::delete('/mapel/{id}', [MapelGuruController::class, 'destroy'])->name('mapel.destroy');
+    Route::post('/mapel/restore', [MapelGuruController::class, 'restore'])->name('mapel.restore');
 
     // Bab
     Route::get('/bab/{id}', [BabController::class, 'index'])->name('bab');
@@ -85,7 +108,6 @@ Route::middleware(['auth', 'verified', 'role:guru'])->name('guru.')->prefix('gur
     Route::put('/bab/{id}', [BabController::class, 'update'])->name('bab.update');
     Route::delete('/bab/{id}', [BabController::class, 'destroy'])->name('bab.destroy');
     Route::get('/penilaian/{id}', [JawabanController::class, 'penilaian'])->name('penilaian');
-    Route::post('/penilaian/store/{id}', [JawabanController::class, 'storeNilai'])->name('penilaian.store');
 
     // Tugas
     Route::get('/bab/tugas/{id}', [TugasController::class, 'index'])->name('tugas');
@@ -95,7 +117,10 @@ Route::middleware(['auth', 'verified', 'role:guru'])->name('guru.')->prefix('gur
     // Modul
     Route::get('/bab/{id}/modul/create}', [ModulController::class, 'create'])->name('modul.create');
     Route::post('/bab/{id}/modul/store', [ModulController::class, 'store'])->name('modul.store');
-    // Route::get('/bab/{id}/modul/{id1}/showPdf', [TugasController::class, 'getPdf'])->name('modul.showpdf');
+
+    //Niali
+    Route::post('/penilaian/store/{id}', [JawabanController::class, 'storeNilai'])->name('penilaian.store');
+    Route::post('/penilaian/update/{id}', [JawabanController::class, 'updatenilai'])->name('penilaian.update');
 });
 //Routing Siswa
 
@@ -108,6 +133,7 @@ Route::middleware(['auth', 'verified', 'role:siswa'])->name('siswa.')->prefix('s
     Route::get('/bab/tugas/{id}', [TugasController::class, 'indexSiswa'])->name('tugas');
     Route::post('/bab/tugas/jawaban/{id}', [JawabanController::class, 'store'])->name('jawaban');
     Route::get('/nilai', [JawabanController::class, 'nilai'])->name('nilai');
+    Route::get('/nilai/{id}', [JawabanController::class, 'nilaiTahun'])->name('nilai.tahun');
 });
 
 require __DIR__ . '/auth.php';

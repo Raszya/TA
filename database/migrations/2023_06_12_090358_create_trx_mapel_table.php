@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_mapel');
             $table->unsignedBigInteger('id_siswa');
+            // $table->unsignedBigInteger('id_tahun');
             $table->foreign('id_siswa')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_mapel')->references('id_mapel')->on('mapels')->onDelete('cascade');
+            // $table->foreign('id_tahun')->references('id')->on('tahun')->onDelete('cascade');
             $table->timestamps();
         });
     }

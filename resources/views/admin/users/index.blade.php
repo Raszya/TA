@@ -22,63 +22,26 @@
         <div class="card">
             <!-- /.card-header -->
             <div class="card-body">
-                <div>
+                {{-- <div>
                     <a class="btn btn-primary btn-sm" href="/user/create">
                         <i class="bi bi-plus-lg"></i>
                         Tambah User
                     </a>
-                </div>
+                </div> --}}
                 <br>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="tabel1">
+                    <table class="table table-striped" id="tbl_list">
                         <thead>
                             <tr>
-                                <th class="w-10px text-center">No</th>
-                                <th class="w-200px text-center">Nama</th>
-                                <th class="w-200px text-center">Email</th>
-                                <th class="w-200px text-center">Nama</th>
+                                <th class="text-center" width="25px">No</th>
+                                <th class="text-center" width="500px">Nama</th>
+                                <th class="text-center" width="500px">Email</th>
+                                <th class="text-center" width="200px">Roles</th>
+                                <th class="text-center" width="50px">Nama</th>
                                 {{-- <th class="w-20px text-center">Aksi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
-                            @if (!@empty($users))
-                                @forelse ($users as $user)
-                                    <tr>
-                                        <td class="align-top text-center"> {{ $loop->iteration }}</td>
-                                        <td class="align-top">
-                                            {{ $user->name }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $user->email }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $user->name }}
-                                        </td>
-                                        <td class="text-center d-flex gap-1 justify-content-center in-line align-top"
-                                            data-kt-menu="true">
-                                            {{-- <form method="GET" action="">
-                                                    <button class="btn icon btn-sm btn btn-warning"> <i
-                                                            class="bi bi-pencil-square"></i></button>
-                                                </form> --}}
-                                            {{-- <form action="{{ route('admin.users.delete') }}" method="POST"
-                                                class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button class="btn icon btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure?')" title="Hapus User?">
-                                                    <i class="bi bi-trash3-fill"></i>
-                                                </button> --}}
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">
-                                            <strong>Belum Ada Data</strong>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -91,7 +54,7 @@
 @section('script')
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-    {{-- <script type="text/javascript">
+    <script type="text/javascript">
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function() {
             var table = $('#tbl_list').DataTable({
@@ -114,8 +77,8 @@
                         name: 'email'
                     },
                     {
-                        data: 'email',
-                        name: 'role'
+                        data: 'roles',
+                        name: 'roles',
                     },
                     {
                         data: 'action',
@@ -123,15 +86,39 @@
                         orderable: false,
                         searchable: false,
                     },
-
-                ]
+                ],
+                columnDefs: [{
+                    className: 'text-center',
+                    targets: [0]
+                }, {
+                    className: 'text-center',
+                    targets: [1]
+                }, {
+                    className: 'text-center',
+                    targets: [2]
+                }, {
+                    className: 'text-center',
+                    targets: [3]
+                }, {
+                    className: 'text-center',
+                    targets: [4]
+                }, ]
             });
 
             // get data
-            // $.ajax({
-            //     url: "",
-            //     type:
-            // })
+            $.ajax({
+                url: "{{ url()->current() }}",
+                type: 'get',
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                success: function(data) {
+                    // console.log(data);
+                    data.forEach(element => {
+                        console.log(element);
+                    });
+                }
+            })
 
             // Delete record
             $('table').on('click', '.deletesiswa', function() {
@@ -163,5 +150,5 @@
 
             });
         });
-    </script> --}}
+    </script>
 @endsection

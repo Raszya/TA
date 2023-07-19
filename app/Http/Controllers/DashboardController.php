@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mapel;
+use App\Models\Trx_mapel_guru;
+use App\Models\User_Mapel;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,7 +16,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $mapels = Mapel::with('users')->get();
+        $mapels = Trx_mapel_guru::with(['mapel', 'guru'])->get();
         return view('dashboard', compact('mapels'));
     }
 

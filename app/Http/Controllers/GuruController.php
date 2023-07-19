@@ -15,11 +15,7 @@ class GuruController extends Controller
 {
     public function index(Request $request)
     {
-        // $gurus = Guru::get();
-        // return view('admin.guru.listguru', compact('gurus'));
-
-        // dd($data);
-
+        // Mengambil data guru berdasarkan request ajax
         if ($request->ajax()) {
             $data = Guru::get();
             return DataTables::of($data)
@@ -51,12 +47,13 @@ class GuruController extends Controller
 
     public function create()
     {
+        // Menampilan View Tambah Guru
         return view('admin.guru.create');
     }
 
     public function store(Request $request)
     {
-        // dd($request);
+        // Memasukan data kedalam database 
         try {
             Guru::create([
                 'nomer_induk' => $request->nip,
@@ -64,6 +61,7 @@ class GuruController extends Controller
                 'jk' => $request->jenisKelamin,
                 'notelp' => $request->noTelp,
                 'alamat' => $request->alamat,
+                'is_aktif' => '1',
             ]);
         } catch (\Throwable $th) {
             return redirect()->back()->with('danger', 'Data Tidak Sesuai!');
@@ -73,6 +71,7 @@ class GuruController extends Controller
 
     public function edit($nomer_induk)
     {
+        // Menampilkan view Edit guru
         $guru = Guru::where(['nomer_induk' => $nomer_induk])->first();
         return view('admin.guru.edit', [
             'guru' => $guru
@@ -81,6 +80,7 @@ class GuruController extends Controller
 
     public function update(Request $request, $nomer_induk)
     {
+        // Melakukan Update Data guru
         $guru = Guru::where(['nomer_induk' => $nomer_induk]);
         try {
             $guru->update([
@@ -98,6 +98,7 @@ class GuruController extends Controller
 
     public function destroy(Request $request)
     {
+        // dd($request);
         $guru = Guru::where(['nomer_induk' => $request->nomer_induk]);
         $guru->delete();
         return 'Data telah dihapus';

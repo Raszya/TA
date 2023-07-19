@@ -21,20 +21,12 @@ class Jawaban extends Model
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    // public function mapel()
-    // {
-    //     return $this->belongsTo(Mapel::class, 'id_mapel', 'id_mapel');
-    // }    
 
     public function tugas()
     {
         return $this->belongsTo(Tugas::class, 'id_tugas', 'id');
     }
 
-    public function trxjawaban()
-    {
-        return $this->hasMany(Trxjawaban::class, 'id_jawaban', 'id');
-    }
 
     public function nilai()
     {

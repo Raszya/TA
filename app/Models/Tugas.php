@@ -15,6 +15,7 @@ class Tugas extends Model
         'desc',
         'dir_tugas',
         'deadline',
+        'jenisTugas',
     ];
 
     public function jawaban()
@@ -24,11 +25,6 @@ class Tugas extends Model
 
     public function bab()
     {
-        return $this->belongsTo(Bab::class, 'id_bab', 'id');
-    }
-
-    public function trxjawaban()
-    {
-        return $this->hasMany(Trxjawaban::class, 'id_tugas', 'id');
+        return $this->belongsTo(Bab::class);
     }
 }

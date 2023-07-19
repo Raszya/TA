@@ -85,6 +85,34 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
+                                    <div class="form-group has-icon-left">
+                                        <label for="first-name-icon">Kelas</label>
+                                        <div class="position-relative">
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="kelas" name="kelas" required>
+                                                    @foreach ($kelas as $row)
+                                                        <option value="{{ $row->id }}">{{ $row->nama }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group has-icon-left">
+                                        <label for="first-name-icon">Tahun</label>
+                                        <div class="position-relative">
+                                            <fieldset class="form-group">
+                                                <select class="form-select" id="tahun" name="tahun" required>
+                                                    @foreach ($tahun as $row)
+                                                        <option value="{{ $row->id }}">{{ $row->tahun }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
                                     <div class="form-group mb-3">
                                         <label for="alamat" class="form-label">Alamat</label>
                                         <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>

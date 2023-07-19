@@ -22,66 +22,75 @@
         <div class="card">
             <!-- /.card-header -->
             <div class="card-body">
+                <div class="col-1">
+                    <select class="form-select" id="tahun" name="tahun" required>
+                        @foreach ($tahun as $row)
+                            <option value="{{ $row->id }}" @if (isset($id) && $id == $row->id) selected @endif>
+                                {{ $row->thn }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-striped" id="tabel1">
+                    <table class="table table-striped" id="mytable">
                         <thead>
                             <tr>
                                 <th class="w-10px text-center">No</th>
                                 <th class="w-200px text-center">Nama Mapel</th>
                                 <th class="w-200px text-center">Nilai angka</th>
                                 <th class="w-200px text-center">Nilai huruf</th>
-                                <th class="w-20px text-center">Detail nilai</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($nilai as $item)
-                                {{-- @if ($item->bab->tugas->jawaban->user->id == Auth::user()->id) --}}
-                                {{-- {{ dd($item->bab[]) }} --}}
-                                {{-- @dump($item->bab[0]]) --}}
+                            @foreach ($nilai as $mapel)
                                 <tr>
-                                    <td class="align-top text-center">{{ $loop->iteration }}</td>
-                                    <td class="align-top">{{ $item->bab }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $mapel->mapels->nama }}</td>
+                                    @php
+                                        $nilaiMapel = [];
+                                        foreach ($mapel->mapels->bab as $bab) {
+                                            foreach ($bab->tugas as $tugas) {
+                                                foreach ($tugas->jawaban as $jawaban) {
+                                                    if ($jawaban->id_user == Auth::user()->id && isset($jawaban->nilai->nilai)) {
+                                                        array_push($nilaiMapel, (float) $jawaban->nilai->nilai);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if (count($nilaiMapel) > 0) {
+                                            $nilaiAkhirMapel = array_sum($nilaiMapel) / count($nilaiMapel);
+                                        } else {
+                                            $nilaiAkhirMapel = 0;
+                                        }
+                                    @endphp
+                                    <td class="text-center">{{ $nilaiAkhirMapel }}</td>
+                                    <td class="text-center">
+                                        @switch($nilaiAkhirMapel)
+                                            @case($nilaiAkhirMapel >= 90)
+                                                A
+                                            @break
+
+                                            @case($nilaiAkhirMapel >= 80)
+                                                B
+                                            @break
+
+                                            @case($nilaiAkhirMapel >= 70)
+                                                C
+                                            @break
+
+                                            @case($nilaiAkhirMapel >= 60)
+                                                D
+                                            @break
+
+                                            @case($nilaiAkhirMapel >= 0)
+                                                E
+                                            @break
+
+                                            @default
+                                                E
+                                        @endswitch
+                                    </td>
                                 </tr>
-                                {{-- @endif --}}
                             @endforeach
-                            {{-- @if ($nilai)
-                                @forelse ($nilai as $row)
-                                    @dump($row)
-                                    <tr>
-                                        <td class="align-top text-center"> {{ $loop->iteration }}</td>
-                                        <td class="align-top">
-                                            {{ $row->nama }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $row->bab->nama }}
-                                        </td>
-                                        <td class="align-top">
-                                            {{ $row->bab->tugas->jawaban->nilai->nilai }}
-                                        </td>
-                                        <td class="text-center d-flex gap-1 justify-content-center in-line align-top"
-                                            data-kt-menu="true">
-                                            <form method="GET" action="">
-                                                <button class="btn icon btn-sm btn btn-warning"> <i
-                                                        class="bi bi-pencil-square"></i></button>
-                                            </form>
-                                            <form action="" method="POST" class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button class="btn icon btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure?')" title="Hapus User?">
-                                                    <i class="bi bi-trash3-fill"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">
-                                            <strong>Belum Ada Data</strong>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            @endif --}}
                         </tbody>
                     </table>
                 </div>
@@ -92,79 +101,16 @@
 @endsection
 
 @section('script')
-    {{-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script> --}}
-    {{-- <script type="text/javascript">
-        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-        $(document).ready(function() {
-            var table = $('#tbl_list').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{ url()->current() }}',
-                columns: [{
-                        data: 'id',
-                        name: 'id',
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'email',
-                        name: 'role'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                    },
+    <script>
+        // Fungsi untuk mengarahkan ke URL dengan tahun yang dipilih
+        function redirectToSelectedYear() {
+            const selectElement = document.getElementById('tahun');
+            const selectedYear = selectElement.value;
+            const url = "/siswa/nilai/" + selectedYear;
+            window.location.href = url;
+        }
 
-                ]
-            });
-
-            // get data
-            // $.ajax({
-            //     url: "",
-            //     type:
-            // })
-
-            // Delete record
-            $('table').on('click', '.deletesiswa', function() {
-                var id = $(this).data('id');
-                console.log(id)
-                var deleteConfirm = confirm("Are you sure?");
-                if (deleteConfirm == true) {
-                    // AJAX request
-                    $.ajax({
-                        url: "{{ route('admin.siswa.destroy') }}",
-                        type: 'post',
-                        headers: {
-                            'X-CSRF-TOKEN': CSRF_TOKEN
-                        },
-                        data: id,
-                        success: function(response) {
-                            console.log(response);
-                            if (response.success == 1) {
-                                alert("Record deleted.");
-
-                                // Reload DataTable
-                                table.ajax.reload();
-                            } else {
-                                alert("Invalid ID.");
-                            }
-                        }
-                    });
-                }
-
-            });
-        });
-    </script> --}}
+        // Tambahkan event onchange ke elemen select
+        document.getElementById('tahun').addEventListener('change', redirectToSelectedYear);
+    </script>
 @endsection

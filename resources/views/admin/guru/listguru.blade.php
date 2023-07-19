@@ -4,13 +4,13 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>List Siswa</h3>
+                    <h3>List Guru</h3>
                 </div>
                 <div class="col-12 col-md-6 order-md-2 order-first">
                     <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('admin.listsiswa') }}">List Siswa</a>
+                                <a href="{{ route('admin.listsiswa') }}">List Guru</a>
                             </li>
                         </ol>
                     </nav>
@@ -23,12 +23,6 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="flash-message">
-                    {{-- @foreach (['danger', 'warning', 'success', 'info'] as $msg)
-                        @if (Session::has('alert-' . $msg))
-                            <p id="alert" class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }}
-                            </p>
-                        @endif
-                    @endforeach --}}
                 </div>
                 <div>
                     <a class="btn btn-primary btn-sm" href="{{ route('admin.guru.create') }}">
@@ -79,7 +73,7 @@
                                 {{-- <th class="w-200px text-center">Role</th> --}}
                                 <th class="w-200px text-center">Alamat</th>
                                 <th class="w-200px text-center">Notelp</th>
-                                <th class="w-20px text-center">Aksi</th>
+                                <th class="text-center" width="50px">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

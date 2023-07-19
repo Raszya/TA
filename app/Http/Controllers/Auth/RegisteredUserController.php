@@ -60,6 +60,7 @@ class RegisteredUserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'is_aktif' => '1'
             ])->assignRole('guru');
             // dd($user);
         } elseif ($nis_length == 5) {
@@ -78,6 +79,7 @@ class RegisteredUserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'is_aktif' => '1',
             ])->assignRole('siswa');
         } else {
             return redirect()->route('register')->with('error', 'Register Gagal, Nis/Nip tidak terdaftar');

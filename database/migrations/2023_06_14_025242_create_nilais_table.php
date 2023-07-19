@@ -15,14 +15,10 @@ return new class extends Migration
     {
         Schema::create('nilais', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_jawaban');
-            // $table->unsignedBigInteger('id_mapel');
-            $table->string('nilai');
+            $table->string('nilai')->nullable();
             $table->timestamps();
-            // $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_jawaban')->references('id')->on('jawabans')->onDelete('cascade');
-            // $table->foreign('id_mapel')->references('id_mapel')->on('mapels')->onDelete('cascade');
         });
     }
 

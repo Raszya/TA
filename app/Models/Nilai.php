@@ -14,6 +14,6 @@ class Nilai extends Model
 
     public function jawaban()
     {
-        return $this->belongsTo(Jawaban::class, 'id_jawaban', 'id');
+        return $this->belongsTo(jawaban::class);
     }
 }

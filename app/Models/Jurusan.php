@@ -17,6 +17,6 @@ class Jurusan extends Model
 
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class);
+        return $this->hasOne(Siswa::class);
     }
 }

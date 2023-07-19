@@ -26,6 +26,8 @@
     <link rel="stylesheet"
         href="{{ asset('assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.css' rel='stylesheet' />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -46,8 +48,6 @@
         </div>
     </div>
 
-    @yield('script')
-    @yield('showpdfmodul')
     <script src="{{ asset('assets/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
@@ -70,6 +70,10 @@
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @yield('select2')
+    @yield('script')
+    @yield('showpdfmodul')
+    @yield('setIdTuags')
 
 
 
